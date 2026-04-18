@@ -4,6 +4,8 @@ import java.util.Scanner;
     public class Pokemon_States {
         public static void main(String[] args){
 
+            System.out.println("こんにちは");
+
             Random rnd = new Random();
             Scanner scn = new Scanner(System.in);
 
@@ -101,7 +103,7 @@ import java.util.Scanner;
                         if (command == 1) {
                             System.out.println("攻撃を選んだ");
                             commandOk = true;
-                            switch (){
+                            switch (true){
                                 case 1:
                                     System.out.println();
 
