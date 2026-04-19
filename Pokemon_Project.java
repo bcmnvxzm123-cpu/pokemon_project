@@ -1,6 +1,6 @@
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.ArrayList;
 
     public class Pokemon_Project{
         public static void main(String[] args){
@@ -15,57 +15,25 @@ import java.util.ArrayList;
             boolean firstAttack = false;// 自分のポケモンが早ければTrue
             String action = "";
 
-            // 手持ちポケモン
-            int myPokemonNum = 0;       // 自分のポケモンの[No.]     を表す配列番号
-            String myPokemonName = "";  // 自分のポケモンの[名前]     を代入する変数を定義
-            int myPokemonHP = 0;        // 自分のポケモンの[HP]       を表す配列番号
-            int myPokemonAttack = 0;    // 自分のポケモンの[攻撃力]    を表す配列番号
-            int myPokemonSpeed = 0;     // 自分のポケモンの[スピード]   を表す配列番号
-
-            // 野生ポケモン
-            String ePokemonName = "";  // 野生のポケモンの[名前]     を代入する変数を定義
-            int ePokemonNum = 0;       // 野生のポケモンの[No]      を表す配列番号
-            int ePokemonHP = 0;         // 野生のポケモンの[HP]     　 を表す配列番号
-            int ePokemonAttack = 0;     // 野生のポケモンの[攻撃力]     を表す配列番号
-            int ePokemonSpeed = 0;      // 野生のポケモンの[スピード]    を表す配列番号
-
-            //↓まずはポケモンにステータスを設定
-
-
-            ArrayList<Pokemon> pokemons = new ArrayList<>();
-            pokemons.add(new Pokemon("コダック",20,15,20));
-            pokemons.add(new Pokemon("ピカチュウ",30,30,40));
+            //↓まずはArrayクラスでポケモンの情報をメソッドに追加
+            ArrayList<Pokemon> pokemons = new ArrayList<>();// ArrayListクラスの<Pokemon>というリストをnewして
+            pokemons.add(new Pokemon("コダック",20,15,20));// <0>ポケモンのリストに順番にaddして（名前、HP、攻撃、スピード）
+            pokemons.add(new Pokemon("ピカチュウ",30,30,40));// <1>ポケモンのリストに順番にaddして（名前、HP、攻撃、スピード）
             pokemons.add(new Pokemon("イーブイ",15,30,25));
             pokemons.add(new Pokemon("ヒポポタス",9,9,9));
 
-            
-            // String[] pokemonName = {"コダック", "ピカチュウ", "イーブイ", "ヒポポタス"};
 
-            // int[][] states = {// ポケモンNo、HP、攻撃力、スピード
-            //         {0,20,15,20},    // コダック[0]
-            //         {1,30,30,40},    // ピカチュウ[1]
-            //         {2,15,30,25},    // イーブイ[2]
-            //         {3,9,9,9}       // ヒポポタス[3]
-            // };
+            int index = rnd.nextInt(pokemons.size());
+            Pokemon myPokemon = pokemons.get(index);
+            System.out.println(myPokemon.name);
 
             System.out.println();// 改行のためだけに記載
 
             //自分の手持ちポケモンをランダムで選択
-            myPokemonNum = rnd.nextInt(pokemonName.length);// 自分の手持ちポケモン決定「myPokemonName」に自分のポケモンを表す配列番号が代入された状態。
-            System.out.println("自分の手持ちポケモンは" + pokemonName[myPokemonNum] + "だ！\nよろしくね！" + pokemonName[myPokemonNum] + "！");
-            
-            for (int h = 0; h < pokemonName.length ; h++ ){// 該当する番号を検索して見つけたらステータスを代入して終了する処理
-                if(h == myPokemonNum){
+            System.out.println("自分の手持ちポケモンは" + myPokemon.name + "だ！");
+            System.out.println("よろしくね！" + myPokemon.name + "！");
 
-                    myPokemonName = pokemonName[h];  // ポケモンNo
-                    myPokemonHP = states[h][1];      // HP
-                    myPokemonAttack = states[h][2];  // 攻撃力
-                    myPokemonSpeed = states[h][3];   // スピード
-                    break;
-                }
-            }// ←どのポケモンと戦うことになったのか。名前やステータスがePokemonNameやePokemonSpeedに代入された状態
-
-            while(myPokemonHP >= 0) {// 手持ちのポケモンが「ひんし」になるまで続けられる
+            while(myPokemon.hp > 0) {// 手持ちのポケモンが「ひんし」になるまで続けられる
 
                 int encodingPattern = rnd.nextInt(100) +1;// whileの外でやりたくないけどエラーでる
 
@@ -82,13 +50,12 @@ import java.util.ArrayList;
                         continue;
                     }
                     else if (encodingPattern <= 10) {// 10%の確率でキズぐすりを手に入れる
-                        System.out.println("キズぐすりをひろった！" + "自分の" + myPokemonName + "のHPを10回復した!");
-                        myPokemonHP += 10; 
+                        System.out.println("キズぐすりをひろった！" + "自分の" + myPokemon.name + "のHPを10回復した!");
+                        myPokemon.hp += 10; 
                         continue;
                     }
                     else{
                         System.out.println("ッ!!!");
-                        ePokemonNum = rnd.nextInt(pokemonName.length);
                     }
                 }
                 else if (walk == 2) {           // 冒険を終了し、ヒポポタウンに戻る。
@@ -100,25 +67,18 @@ import java.util.ArrayList;
                     System.out.println("正しい数字を入力してね！");
                     continue;
                 }
-                for (int i = 0; i < pokemonName.length ; i++ ){// 該当する番号を検索して見つけたらステータスを代入して終了する処理
-                    if(i == ePokemonNum){
-                        System.out.println(pokemonName[i] + "がとびだしてきた！");
 
-                        ePokemonName = pokemonName[i];  // ポケモンNo
-                        ePokemonHP = states[i][1];      // HP
-                        ePokemonAttack = states[i][2];  // 攻撃力
-                        ePokemonSpeed = states[i][3];   // スピード
-                        break;
-                    }
-                }// ←どのポケモンと戦うことになったのか。名前やステータスがePokemonNameやePokemonSpeedに代入された状態
+                // ここで野生のポケモンを決定。
+                int eindex = rnd.nextInt(pokemons.size());
+                Pokemon ePokemon = pokemons.get(eindex);
+                System.out.println(ePokemon.name + "がとびだしてきた！");
 
                 firstAttack = false;
-
                 // 野生ポケモンと手持ちポケモンのスピード勝負
-                if(myPokemonSpeed > ePokemonSpeed){     // 自分が早い
+                if(myPokemon.speed > ePokemon.speed){     // 自分が早い
                     firstAttack = true;
                 }
-                else if(myPokemonSpeed < ePokemonSpeed){   // 相手が早い
+                else if(myPokemon.speed < ePokemon.speed){   // 相手が早い
                     // firstAttack = false;// 記入の必要はないが可読性向上のため記載。
                 }
                 else {                                      // 同じスピード
@@ -165,53 +125,53 @@ import java.util.ArrayList;
 
                     // 戦闘処理　⓵自分→相手　⓶相手→自分　⓷逃げられなかった（相手のみ）　⓸逃げられた
                     if (firstAttack && action.equals("attack")) {// ⓵自分→相手
-                        System.out.println("自分の" + myPokemonName + "の攻撃！");
-                        System.out.println(ePokemonName + "に" + myPokemonAttack + "のダメージ！");
-                        ePokemonHP -= myPokemonAttack;
-                            if (ePokemonHP <= 0) {// 野生のポケモンを倒していれば
-                                System.out.println(ePokemonName + "をたおした！");
+                        System.out.println("自分の" + myPokemon.name + "の攻撃！");
+                        System.out.println(ePokemon.name + "に" + myPokemon.attack + "のダメージ！");
+                        ePokemon.hp -= myPokemon.attack;
+                            if (ePokemon.hp <= 0) {// 野生のポケモンを倒していれば
+                                System.out.println(ePokemon.name + "をたおした！");
                                 Win = true;
                                 winCounter ++;
                                 break;
                             }
-                        System.out.println(ePokemonName + "の攻撃！");
-                        System.out.println("自分の" + myPokemonName + "に" + ePokemonAttack + "のダメージ！");
-                        myPokemonHP -= ePokemonAttack;
-                        if (myPokemonHP <= 0) {
-                            System.out.println("自分の" + myPokemonName + "は倒れた");
+                        System.out.println(ePokemon.name + "の攻撃！");
+                        System.out.println("自分の" + myPokemon.name + "に" + ePokemon.attack + "のダメージ！");
+                        myPokemon.hp -= ePokemon.attack;
+                        if (myPokemon.hp <= 0) {
+                            System.out.println("自分の" + myPokemon.name + "は倒れた");
                             endSelect = true;
                         }
                     }
                     else if(!firstAttack && action.equals("attack")){// ⓶相手→自分
-                        System.out.println(ePokemonName + "の攻撃！");
-                        System.out.println("自分の" + myPokemonName + "に" + ePokemonAttack + "のダメージ！");
-                        myPokemonHP -= ePokemonAttack;
-                        if (myPokemonHP <= 0) {
-                            System.out.println("自分の" + myPokemonName + "は倒れた");
+                        System.out.println(ePokemon.name + "の攻撃！");
+                        System.out.println("自分の" + myPokemon.name + "に" + ePokemon.attack + "のダメージ！");
+                        myPokemon.hp -= ePokemon.attack;
+                        if (myPokemon.hp <= 0) {
+                            System.out.println("自分の" + myPokemon.name + "は倒れた");
                             endSelect = true;
                             break;
                         }// 次は自分の攻撃↓
-                        System.out.println("自分の" + myPokemonName + "の攻撃！");
-                        System.out.println(ePokemonName + "に" + myPokemonAttack + "のダメージ！");
-                        ePokemonHP -= myPokemonAttack;
-                        if (ePokemonHP <= 0) {
-                            System.out.println(ePokemonName + "をたおした！");
+                        System.out.println("自分の" + myPokemon.name + "の攻撃！");
+                        System.out.println(ePokemon.name + "に" + myPokemon.attack + "のダメージ！");
+                        ePokemon.hp -= myPokemon.attack;
+                        if (ePokemon.hp <= 0) {
+                            System.out.println(ePokemon.name + "をたおした！");
                             Win = true;
                             winCounter ++;
                         }
                     }
                     else if(action.equals("escape")){// 逃げるを選択（booleanでcanEscapeがいるかも）
                         if(firstAttack){// 逃げ出せた
-                            System.out.println(ePokemonName + "から逃げだした！");
+                            System.out.println(ePokemon.name + "から逃げだした！");
                             break;
                         }
                         else {// 逃げ出せなかった
                             System.out.println("しかしまわりこまれてしまった！");
-                            System.out.println(ePokemonName + "の攻撃！");
-                            System.out.println("自分の" + myPokemonName + "に" + ePokemonAttack + "のダメージ！");
-                            myPokemonHP -= ePokemonAttack;
-                            if (myPokemonHP <= 0) {
-                                System.out.println("自分の" + myPokemonName + "は倒れた");
+                            System.out.println(ePokemon.name + "の攻撃！");
+                            System.out.println("自分の" + myPokemon.name + "に" + ePokemon.attack + "のダメージ！");
+                            myPokemon.hp -= ePokemon.attack;
+                            if (myPokemon.hp <= 0) {
+                                System.out.println("自分の" + myPokemon.name + "は倒れた");
                                 endSelect = true;
                             }
                         }
@@ -219,7 +179,7 @@ import java.util.ArrayList;
                 }
                 // 戦闘処理
                 // 倒せたのか負けたのか
-                if (myPokemonHP <= 0) {
+                if (myPokemon.hp <= 0) {
                     System.out.println("手持ちのポケモンがいなくなった。。。");
                     System.out.println("目の前がまっくらになった。。。。");
                     Win = false;
@@ -244,17 +204,19 @@ import java.util.ArrayList;
             System.out.println("～END～");
     }
 
-    class Pokemon {
-        String name;
-        int hp;
-        int attack;
-        int speed;
+}
 
-        Pokemon(String name,int hp,int attack,int speed){
-            this.name = name;
-            this.hp = hp;
-            this.attack = attack;
-            this.speed = speed;
-        }
+class Pokemon {// ここに全ポケモンが絶対持ってるステータスがある。（ポケモンの設計部品の倉庫）
+    String name;// 名前が必要だね
+    int hp;// HPが必要だね
+    int attack;//攻撃力が必要だね 
+    int speed;// スピードが必要だね
+
+    Pokemon(String name,int hp,int attack,int speed){// そんなポケモン
+        this.name = name;
+        this.hp = hp;
+        this.attack = attack;
+        this.speed = speed;
     }
 }
+
